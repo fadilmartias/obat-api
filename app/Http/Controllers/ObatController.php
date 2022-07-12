@@ -21,98 +21,96 @@ class ObatController extends Controller
 
     public function store(Request $request)
     {
-    $validator = Validator::make($request->all(), [
-        'name'   => 'required',
-        'price' => 'required',
-        'stock' => 'required',
-    ]);
-
-    if ($validator->fails()) {
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Semua Kolom Wajib Diisi!',
-            'data'   => $validator->errors()
-        ],401);
-
-    } else {
-
-        $obat = Obat::create([
-            'name'     => $request->input('name'),
-            'price'   => $request->input('price'),
-            'stock'   => $request->input('stock'),
+        $validator = Validator::make($request->all(), [
+            'name'   => 'required',
+            'price' => 'required',
+            'stock' => 'required',
         ]);
 
-        if ($obat) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Obat Berhasil Disimpan!',
-                'data' => $obat
-            ], 201);
-        } else {
+        if ($validator->fails()) {
+
             return response()->json([
                 'success' => false,
-                'message' => 'Obat Gagal Disimpan!',
-            ], 400);
-        }
+                'message' => 'Semua Kolom Wajib Diisi!',
+                'data'   => $validator->errors()
+            ],401);
 
-    }
+        } else {
+
+            $obat = Obat::create([
+                'name'     => $request->input('name'),
+                'price'   => $request->input('price'),
+                'stock'   => $request->input('stock'),
+            ]);
+
+            if ($obat) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Obat Berhasil Disimpan!',
+                    'data' => $obat
+                ], 201);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Obat Gagal Disimpan!',
+                ], 400);
+            }
+
+        }
     }
 
     public function show($id)
-{
-   $obat = Obat::find($id);
-
-   if ($obat) {
-       return response()->json([
-           'success'   => true,
-           'message'   => 'Detail Obat!',
-           'data'      => $obat
-       ], 200);
-   } else {
-       return response()->json([
-           'success' => false,
-           'message' => 'obat Tidak Ditemukan!',
-       ], 404);
-   }
-}
-
-public function update(Request $request, $id)
-{
-    $validator = Validator::make($request->all(), [
-        'title'   => 'required',
-        'content' => 'required',
-    ]);
-
-    if ($validator->fails()) {
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Semua Kolom Wajib Diisi!',
-            'data'   => $validator->errors()
-        ],401);
-
-    } else {
-
-        $obat = Obat::whereId($id)->update([
-            'title'     => $request->input('title'),
-            'content'   => $request->input('content'),
-        ]);
+    {
+        $obat = Obat::find($id);
 
         if ($obat) {
             return response()->json([
-                'success' => true,
-                'message' => 'Obat Berhasil Diupdate!',
-                'data' => $obat
-            ], 201);
+                'success'   => true,
+                'message'   => 'Detail Obat!',
+                'data'      => $obat
+            ], 200);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'Obat Gagal Diupdate!',
-            ], 400);
+                'message' => 'obat Tidak Ditemukan!',
+            ], 404);
         }
-
     }
-}
 
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'title'   => 'required',
+            'content' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Semua Kolom Wajib Diisi!',
+                'data'   => $validator->errors()
+            ],401);
+
+        } else {
+
+            $obat = Obat::whereId($id)->update([
+                'title'     => $request->input('title'),
+                'content'   => $request->input('content'),
+            ]);
+
+            if ($obat) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Obat Berhasil Diupdate!',
+                    'data' => $obat
+                ], 201);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Obat Gagal Diupdate!',
+                ], 400);
+            }
+        }
+    }
 }
