@@ -80,8 +80,9 @@ class ObatController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'title'   => 'required',
-            'content' => 'required',
+            'name'   => 'required',
+            'price' => 'required',
+            'stock' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -95,8 +96,9 @@ class ObatController extends Controller
         } else {
 
             $obat = Obat::whereId($id)->update([
-                'title'     => $request->input('title'),
-                'content'   => $request->input('content'),
+                'name'     => $request->input('name'),
+                'price'   => $request->input('price'),
+                'stock'   => $request->input('stock'),
             ]);
 
             if ($obat) {
